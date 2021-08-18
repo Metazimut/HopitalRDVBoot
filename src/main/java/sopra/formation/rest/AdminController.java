@@ -26,7 +26,7 @@ public class AdminController {
 	@Autowired
 	private ICompteRepository adminRepo;
 
-	@GetMapping("/admin")
+	@GetMapping("")
 	public List<Admin> findAll() {
 		return adminRepo.findAllAdmin();
 	}
