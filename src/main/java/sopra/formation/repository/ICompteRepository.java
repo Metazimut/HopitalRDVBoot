@@ -1,6 +1,7 @@
 package sopra.formation.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -44,7 +45,7 @@ public interface ICompteRepository extends JpaRepository<Compte, Long> {
 	
 	Praticien findPraticienById(@Param("Id") Long idPraticien); // NamedQuery
 
-	Patient findPatientById(@Param("Id") Long idPatient); // NamedQuery
+	Optional<Patient> findPatientById(@Param("Id") Long idPatient); // NamedQuery
 	
 	Admin findAdminById(@Param("Id") Long idAdmin); // NamedQuery
 }
