@@ -14,62 +14,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.annotation.JsonView;
-import sopra.formation.model.Admin;
+import sopra.formation.model.Specialite;
 import sopra.formation.model.Views;
-import sopra.formation.repository.ICompteRepository;
+import sopra.formation.repository.ISpecialiteRepository;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/specialite")
 @CrossOrigin("*")
-public class AdminController {
+public class SpecialiteController {
 
 	@Autowired
-	private ICompteRepository adminRepo;
+	private ISpecialiteRepository specialiteRepo;
 
 	@GetMapping("")
-	public List<Admin> findAll() {
-		return adminRepo.findAllAdmin();
+	public List<Specialite> findAll() {
+		
+		return specialiteRepo.findAll();
 	}
 
 	@GetMapping("/{id}")
-	@JsonView(Views.ViewAdmin.class)
-	public Admin find(@PathVariable Long id) {
+	@JsonView(Views.ViewSpecialite.class)
+	public Specialite find(@PathVariable Long id) {
 
-		Admin optAdmin = adminRepo.findAdminById(id);
+		Specialite optSpecialite = specialiteRepo.findById(id).get();
 
-		if (optAdmin!=null) {
-			return optAdmin;
+		if (optSpecialite!=null) {
+			return optSpecialite;
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 	}
 
 	@PostMapping("")
-	@JsonView(Views.ViewAdmin.class)
-	public Admin create(@RequestBody Admin admin) {
-		admin = adminRepo.save(admin);
+	@JsonView(Views.ViewSpecialite.class)
+	public Specialite create(@RequestBody Specialite specialite) {
+		specialite = specialiteRepo.save(specialite);
 
-		return admin;
+		return specialite;
 	}
 
 	@PutMapping("/{id}")
-	@JsonView(Views.ViewAdmin.class)
-	public Admin update(@RequestBody Admin admin, @PathVariable Long id) {
-		if (!adminRepo.existsById(id)) {
+	@JsonView(Views.ViewSpecialite.class)
+	public Specialite update(@RequestBody Specialite specialite, @PathVariable Long id) {
+		if (!specialiteRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 
-		admin = adminRepo.save(admin);
+		specialite = specialiteRepo.save(specialite);
 
-		return admin;
+		return specialite;
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		if (!adminRepo.existsById(id)) {
+		if (!specialiteRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 		
-		adminRepo.deleteById(id);
+		specialiteRepo.deleteById(id);
 	}
 }

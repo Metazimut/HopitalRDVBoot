@@ -31,7 +31,7 @@ import sopra.formation.rest.exception.MotifValidationException;
 @RestController
 @RequestMapping("/motif")
 @CrossOrigin("*")
-public class MotifRestController {
+public class MotifController {
 
 	@Autowired
 	private IMotifRepository motifRepo;
