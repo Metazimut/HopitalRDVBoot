@@ -1,73 +1,83 @@
 package sopra.formation.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 import sopra.formation.model.Praticien;
+import sopra.formation.model.Views;
 import sopra.formation.repository.ICompteRepository;
 
-@Controller
+@RestController
+@RequestMapping("/praticien")
+@CrossOrigin("*")
 public class PraticienController {
 
 	@Autowired
 	private ICompteRepository praticienRepo;
 
-	@GetMapping("/praticien") // ETAPE 1
-	public String list(Model model) {
-		// ETAPE 2
-		List<Praticien> praticiens = this.praticienRepo.findAllPraticien();
-
-		// ETAPE 3
-		model.addAttribute("mesPraticiens", praticiens);
-
-		// ETAPE 4
-		return "praticien/list";
+	@GetMapping("")
+	@JsonView(Views.ViewPraticien.class)
+	public List<Praticien> findAll() {
+		return praticienRepo.findAllPraticien();
 	}
 
-	@GetMapping("/praticien/add")
-	public String add() {
-		// ETAPE 2 et 3 inutile
-		// ETAPE 4
-		return "praticien/form";
-	}
+	@GetMapping("/{id}")
+	@JsonView(Views.ViewPraticien.class)
+	public Praticien find(@PathVariable Long id) {
 
-	@GetMapping("/praticien/edit")
-	public String edit(@RequestParam("id") Long idPraticien, Model model) {
-		// ETAPE 2
-		Praticien praticien = praticienRepo.findPraticienById(idPraticien);
+		Optional<Praticien> optPraticien = praticienRepo.findPraticienById(id);
 
-		// ETAPE 3
-		model.addAttribute("prat", praticien);
-
-		// ETAPE 4
-		return "praticien/form";
+		if (optPraticien.isPresent()) {
+			return optPraticien.get();
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+		}
 	}
 	
-	@PostMapping("/praticien/save")
-	public String save(@RequestParam(required = false) Long id, @RequestParam(required = false, defaultValue = "0") int version, @RequestParam String nom, @RequestParam String prenom, @RequestParam String email, @RequestParam String mdp, @RequestParam String lieu) {
-		Praticien praticien = new Praticien(id,version, nom, prenom, email, mdp, lieu);
-		praticien.setVersion(version);
-		
-		praticienRepo.save(praticien);
-		
-		return "redirect:/praticien";
+	@PostMapping("")
+	@JsonView(Views.ViewPraticien.class)
+	public Praticien create(@RequestBody Praticien praticien) {
+		praticien = praticienRepo.save(praticien);
+
+		return praticien;
 	}
 
-	@GetMapping("/praticien/delete")
-	public String delete(@RequestParam Long id) {
+	@PutMapping("/{id}")
+	@JsonView(Views.ViewPraticien.class)
+	public Praticien update(@RequestBody Praticien praticien, @PathVariable Long id) {
+		if (!praticienRepo.existsById(id)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+		}
+
+		praticien = praticienRepo.save(praticien);
+
+		return praticien;
+	}
+
+	
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id) {
+		if (!praticienRepo.existsById(id)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+		}
+		
 		praticienRepo.deleteById(id);
-		
-		return "redirect:/praticien";
 	}
 	
-	@GetMapping("/praticien/cancel")
-	public String cancel() {
-		return "forward:/praticien";
-	}
+
 }
