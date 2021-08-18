@@ -26,11 +26,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import sopra.formation.model.Evaluation;
 import sopra.formation.model.Patient;
 import sopra.formation.model.Views;
 import sopra.formation.repository.ICompteRepository;
-import sopra.formation.rest.exception.EvaluationValidationException;
+
 
 @RestController
 @RequestMapping("/patient")
@@ -43,14 +42,14 @@ public class PatientController {
 	@GetMapping("")
 	@JsonView(Views.ViewPatient.class)
 	public List<Patient> findAll() {
-		return patientRepo.findAll();
+		return patientRepo.findAllPatient();
 	}
 
 	@GetMapping("/{id}")
 	@JsonView(Views.ViewPatient.class)
 	public Patient find(@PathVariable Long id) {
 
-		Optional<Patient> optEvaluation = PatientRepo.findById(id);
+		Optional<Patient> optEvaluation = patientRepo.findPatientById(id);
 
 		if (optEvaluation.isPresent()) {
 			return optEvaluation.get();
@@ -60,59 +59,54 @@ public class PatientController {
 	}
 
 	@PostMapping("")
-	@JsonView(Views.ViewEvaluation.class)
-	public Evaluation create(@Valid @RequestBody Evaluation evaluation, BindingResult result) {
-		if(result.hasErrors()) {
-			throw new EvaluationValidationException();
-		}
+	@JsonView(Views.ViewPatient.class)
+	public Patient create( @RequestBody Patient patient){
 		
-		evaluation = evaluationRepo.save(evaluation);
+		patient = patientRepo.save(patient);
 
-		return evaluation;
+		return patient;
 	}
 
 	@PutMapping("/{id}")
-	@JsonView(Views.ViewEvaluation.class)
-	public Evaluation update(@RequestBody Evaluation evaluation, @PathVariable Long id) {
-		if (!evaluationRepo.existsById(id)) {
+	@JsonView(Views.ViewPatient.class)
+	public Patient update(@RequestBody Patient patient, @PathVariable Long id) {
+		if (!patientRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 
-		evaluation = evaluationRepo.save(evaluation);
+		patient = patientRepo.save(patient);
 
-		return evaluation;
+		return patient;
 	}
 
 	@PatchMapping("/{id}")
-	@JsonView(Views.ViewEvaluation.class)
-	public Evaluation partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable Long id) {
-		if (!evaluationRepo.existsById(id)) {
+	@JsonView(Views.ViewPatient.class)
+	public Patient partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable Long id) {
+		if (!patientRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 
-		Evaluation evaluationFind = evaluationRepo.findById(id).get();
+		Patient patientFind = patientRepo.findPatientById(id).get();
 
-		if (updates.containsKey("comportemental")) {
-			evaluationFind.setComportemental((Integer) updates.get("comportemental"));
+		if (updates.containsKey("nom")) {
+			patientFind.setNom((String) updates.get("nom"));
 		}
-		if (updates.containsKey("technique")) {
-			evaluationFind.setTechnique((Integer) updates.get("technique"));
+		if (updates.containsKey("prenom")) {
+			patientFind.setPrenom((String) updates.get("prenom"));
 		}
-		if (updates.containsKey("commentaires")) {
-			evaluationFind.setCommentaires((String) updates.get("commentaires"));
-		}
+		
 
-		evaluationFind = evaluationRepo.save(evaluationFind);
+		patientFind = patientRepo.save(patientFind);
 
-		return evaluationFind;
+		return patientFind;
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		if (!evaluationRepo.existsById(id)) {
+		if (!patientRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 		
-		evaluationRepo.deleteById(id);
+		patientRepo.deleteById(id);
 	}
 }
