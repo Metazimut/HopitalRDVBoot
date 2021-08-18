@@ -1,18 +1,14 @@
 package sopra.formation.rest;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sopra.formation.model.Rdv;
-import sopra.formation.model.Status;
 import sopra.formation.repository.IRdvRepository;
 
 
@@ -48,16 +44,16 @@ public class RdvController {
 		return "rdv/form";
 	}
 	
-	@PostMapping("/rdv/save")
-	public String save(@RequestParam(required = false) Long id, @RequestParam(required = false, defaultValue = "0") int version, @RequestParam String lieu, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date dtRdv, @RequestParam Status status) {
-		Rdv rdv = new Rdv(id, lieu, dtRdv, status);
-		
-		rdv.setVersion(version);
-		
-		rdvRepo.save(rdv);
-		
-		return "redirect:/rdv";
-	}
+//	@PostMapping("/rdv/save")
+//	public String save(@RequestParam(required = false) Long id, @RequestParam(required = false, defaultValue = "0") int version, @RequestParam String lieu, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date dtRdv, @RequestParam Status status) {
+//		Rdv rdv = new Rdv(id, lieu, dtRdv, status);
+//		
+//		rdv.setVersion(version);
+//		
+//		rdvRepo.save(rdv);
+//		
+//		return "redirect:/rdv";
+//	}
 
 	@GetMapping("/rdv/delete")
 	public String delete(@RequestParam Long id) {
