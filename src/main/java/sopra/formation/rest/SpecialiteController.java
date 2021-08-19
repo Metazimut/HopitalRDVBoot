@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.annotation.JsonView;
 import sopra.formation.model.Specialite;
+import sopra.formation.model.Praticien;
 import sopra.formation.model.Views;
+import sopra.formation.repository.ICompteRepository;
 import sopra.formation.repository.ISpecialiteRepository;
 
 @RestController
@@ -25,6 +27,9 @@ public class SpecialiteController {
 
 	@Autowired
 	private ISpecialiteRepository specialiteRepo;
+	
+	@Autowired
+	private ICompteRepository praticienRepo;
 
 	@GetMapping("")
 	@JsonView(Views.ViewSpecialite.class)
@@ -44,6 +49,15 @@ public class SpecialiteController {
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
+	}
+	
+	@GetMapping("/{id}/praticiens")
+	@JsonView(Views.ViewPraticienSpecialite.class)
+	public List<Praticien> findAllPraticienBySpecialite(@PathVariable Long id) {
+
+		List<Praticien> praticiens = praticienRepo.findAllBySpecialite(id); 
+		
+		return praticiens;
 	}
 
 	@PostMapping("")
