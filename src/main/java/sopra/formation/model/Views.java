@@ -19,6 +19,8 @@ public class Views {
 	
 	public static class ViewCreneaux extends ViewCommon {}
 	
+	public static class ViewPraticienRdv {}
+	
 	
 }
 
