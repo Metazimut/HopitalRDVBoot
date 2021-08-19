@@ -47,5 +47,5 @@ public interface ICompteRepository extends JpaRepository<Compte, Long> {
 
 	Optional<Patient> findPatientById(@Param("Id") Long idPatient); // NamedQuery
 	
-	Admin findAdminById(@Param("Id") Long idAdmin); // NamedQuery
+	Optional<Admin> findAdminById(@Param("Id") Long idAdmin); // NamedQuery
 }
