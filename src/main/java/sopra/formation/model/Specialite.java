@@ -12,20 +12,27 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "Specialite")
 public class Specialite {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(Views.ViewCommon.class)
 	private Long id;
 	@Version
+	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name="libelle")
+	@JsonView(Views.ViewCommon.class)
 	private String libelle;
+	@JsonView(Views.ViewSpecialite.class)
 	@OneToMany(mappedBy="specialite")
 	private List<PraticienSpecialite> praticienSpecialites = new ArrayList<PraticienSpecialite>();
 	@OneToMany(mappedBy="specialite")
+	@JsonView(Views.ViewSpecialite.class)
 	private List<Motif> motifs = new ArrayList<Motif>();
 	
 	

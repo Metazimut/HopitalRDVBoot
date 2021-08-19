@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 
 @Entity
 @Table(name = "Praticien_Specialite")
@@ -16,14 +18,18 @@ public class PraticienSpecialite {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(Views.ViewCommon.class)
 	private Long id;
 	@Version
+	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@ManyToOne
 	@JoinColumn(name="praticien")
+	@JsonView(Views.ViewSpecialite.class)
 	private Praticien praticien;
 	@ManyToOne
 	@JoinColumn(name="specialite")
+	@JsonView(Views.ViewPraticien.class)
 	private Specialite specialite;
 	
 	public PraticienSpecialite() {

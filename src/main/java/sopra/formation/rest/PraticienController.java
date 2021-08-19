@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import sopra.formation.model.Praticien;
+import sopra.formation.model.Views;
 import sopra.formation.repository.ICompteRepository;
 
 @Controller
@@ -19,6 +22,7 @@ public class PraticienController {
 	private ICompteRepository praticienRepo;
 
 	@GetMapping("/praticien") // ETAPE 1
+	@JsonView(Views.ViewPraticien.class)
 	public String list(Model model) {
 		// ETAPE 2
 		List<Praticien> praticiens = this.praticienRepo.findAllPraticien();
@@ -31,6 +35,7 @@ public class PraticienController {
 	}
 
 	@GetMapping("/praticien/add")
+	@JsonView(Views.ViewPraticien.class)
 	public String add() {
 		// ETAPE 2 et 3 inutile
 		// ETAPE 4
@@ -38,6 +43,7 @@ public class PraticienController {
 	}
 
 	@GetMapping("/praticien/edit")
+	@JsonView(Views.ViewPraticien.class)
 	public String edit(@RequestParam("id") Long idPraticien, Model model) {
 		// ETAPE 2
 		Praticien praticien = praticienRepo.findPraticienById(idPraticien);
@@ -50,6 +56,7 @@ public class PraticienController {
 	}
 	
 	@PostMapping("/praticien/save")
+	@JsonView(Views.ViewPraticien.class)
 	public String save(@RequestParam(required = false) Long id, @RequestParam(required = false, defaultValue = "0") int version, @RequestParam String nom, @RequestParam String prenom, @RequestParam String email, @RequestParam String mdp, @RequestParam String lieu) {
 		Praticien praticien = new Praticien(id,version, nom, prenom, email, mdp, lieu);
 		praticien.setVersion(version);

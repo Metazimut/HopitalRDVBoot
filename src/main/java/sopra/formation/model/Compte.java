@@ -11,6 +11,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "account")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -18,16 +20,22 @@ import javax.persistence.Version;
 public abstract class Compte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
+	@JsonView(Views.ViewCommon.class)
 	private Long id;
 	@Version
+	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name = "last_name", length = 100)
+	@JsonView(Views.ViewCommon.class)
 	private String nom;
 	@Column(name = "first_name", length = 100)
+	@JsonView(Views.ViewCommon.class)
 	private String prenom;
 	@Column(name = "email", length = 255)
+	@JsonView(Views.ViewCommon.class)
 	private String email;
 	@Column(name = "password", length = 20)
+	@JsonView(Views.ViewCommon.class)
 	private String mdp;
 
 	public Compte() {
