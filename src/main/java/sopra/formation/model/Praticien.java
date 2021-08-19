@@ -17,8 +17,10 @@ public class Praticien extends Compte {
 	@JsonView(Views.ViewCommon.class)
 	private String lieu;
 	@OneToMany(mappedBy = "praticien")
+	@JsonView(Views.ViewPraticien.class)
 	private List<PraticienSpecialite> spe = new ArrayList<PraticienSpecialite>();
 	@OneToMany(mappedBy = "praticien")
+	@JsonView(Views.ViewPraticien.class)
 	private List<Creneaux> creneaux = new ArrayList<Creneaux>();
 	
 	public Praticien() {
