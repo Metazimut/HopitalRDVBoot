@@ -26,7 +26,6 @@ import sopra.formation.repository.IRdvRepository;
 @RestController
 @RequestMapping("/rdv")
 @CrossOrigin("*")
-@Controller
 public class RdvController {
 
 	@Autowired
