@@ -18,66 +18,65 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import sopra.formation.model.Praticien;
+import sopra.formation.model.Creneaux;
 import sopra.formation.model.Views;
-import sopra.formation.repository.ICompteRepository;
+import sopra.formation.repository.ICreneauxRepository;
 
 @RestController
-@RequestMapping("/praticien")
+@RequestMapping("/creneaux")
 @CrossOrigin("*")
-public class PraticienController {
+public class CreneauxController {
 
 	@Autowired
-	private ICompteRepository praticienRepo;
-
+	private ICreneauxRepository creneauxRepo;
+	
+	
 	@GetMapping("")
-	@JsonView(Views.ViewPraticien.class)
-	public List<Praticien> findAll() {
-		return praticienRepo.findAllPraticien();
+	@JsonView(Views.ViewCreneaux.class)
+	public List<Creneaux> findAll() {
+		return creneauxRepo.findAll();
 	}
 
 	@GetMapping("/{id}")
-	@JsonView(Views.ViewPraticien.class)
-	public Praticien find(@PathVariable Long id) {
+	@JsonView(Views.ViewCreneaux.class)
+	public Creneaux find(@PathVariable Long id) {
 
-		Optional<Praticien> optPraticien = praticienRepo.findPraticienById(id);
+		Optional<Creneaux> optCreneaux = creneauxRepo.findById(id);
 
-		if (optPraticien.isPresent()) {
-			return optPraticien.get();
+		if (optCreneaux.isPresent()) {
+			return optCreneaux.get();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 	}
 	
 	@PostMapping("")
-	@JsonView(Views.ViewPraticien.class)
-	public Praticien create(@RequestBody Praticien praticien) {
-		praticien = praticienRepo.save(praticien);
+	@JsonView(Views.ViewCreneaux.class)
+	public Creneaux create(@RequestBody Creneaux creneaux) {
+		creneaux = creneauxRepo.save(creneaux);
 
-		return praticien;
+		return creneaux;
 	}
 
 	@PutMapping("/{id}")
-	@JsonView(Views.ViewPraticien.class)
-	public Praticien update(@RequestBody Praticien praticien, @PathVariable Long id) {
-		if (!praticienRepo.existsById(id)) {
+	@JsonView(Views.ViewCreneaux.class)
+	public Creneaux update(@RequestBody Creneaux creneaux, @PathVariable Long id) {
+		if (!creneauxRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 
-		praticien = praticienRepo.save(praticien);
+		creneaux = creneauxRepo.save(creneaux);
 
-		return praticien;
+		return creneaux;
 	}
 
 	
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		if (!praticienRepo.existsById(id)) {
+		if (!creneauxRepo.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
 		
-		praticienRepo.deleteById(id);
+		creneauxRepo.deleteById(id);
 	}
-	
-
 }
