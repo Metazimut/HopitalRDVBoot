@@ -28,9 +28,11 @@ public class Specialite {
 	@Column(name="libelle")
 	@JsonView(Views.ViewCommon.class)
 	private String libelle;
+	@JsonView(Views.ViewSpecialite.class)
 	@OneToMany(mappedBy="specialite")
 	private List<PraticienSpecialite> praticienSpecialites = new ArrayList<PraticienSpecialite>();
 	@OneToMany(mappedBy="specialite")
+	@JsonView(Views.ViewSpecialite.class)
 	private List<Motif> motifs = new ArrayList<Motif>();
 	
 	

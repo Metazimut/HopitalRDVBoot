@@ -35,6 +35,7 @@ public abstract class Compte {
 	@JsonView(Views.ViewCommon.class)
 	private String email;
 	@Column(name = "password", length = 20)
+	@JsonView(Views.ViewCommon.class)
 	private String mdp;
 
 	public Compte() {

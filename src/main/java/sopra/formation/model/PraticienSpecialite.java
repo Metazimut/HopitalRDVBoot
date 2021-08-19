@@ -25,9 +25,11 @@ public class PraticienSpecialite {
 	private int version;
 	@ManyToOne
 	@JoinColumn(name="praticien")
+	@JsonView(Views.ViewSpecialite.class)
 	private Praticien praticien;
 	@ManyToOne
 	@JoinColumn(name="specialite")
+	@JsonView(Views.ViewPraticien.class)
 	private Specialite specialite;
 	
 	public PraticienSpecialite() {
