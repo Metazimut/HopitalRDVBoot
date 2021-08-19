@@ -27,6 +27,7 @@ public class SpecialiteController {
 	private ISpecialiteRepository specialiteRepo;
 
 	@GetMapping("")
+	@JsonView(Views.ViewSpecialite.class)
 	public List<Specialite> findAll() {
 		
 		return specialiteRepo.findAll();
