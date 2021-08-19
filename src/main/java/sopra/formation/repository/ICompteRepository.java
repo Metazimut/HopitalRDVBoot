@@ -11,7 +11,7 @@ import sopra.formation.model.Admin;
 import sopra.formation.model.Compte;
 import sopra.formation.model.Patient;
 import sopra.formation.model.Praticien;
-import sopra.formation.model.Specialite;
+
 
 
 
@@ -38,8 +38,8 @@ public interface ICompteRepository extends JpaRepository<Compte, Long> {
 	
 	Praticien findAllPraticienByNom(@Param("Nom") String nom); // NamedQuery
 	
-	@Query("select ps.praticien from PraticienSpecialite ps where ps.id = (select ps.id from PraticienSpecialite ps join ps.specialite s where s =:spe)")
-	Praticien findAllPraticienBySpe(@Param("spe") Specialite spe);
+	@Query("select ps.praticien from PraticienSpecialite ps where ps.id = (select ps.id from PraticienSpecialite ps join ps.specialite s where s.id =:Id)")
+	List<Praticien> findAllBySpecialite(@Param("Id") Long id);
 	
 	Praticien findAllPraticienByLieu(@Param("lieu") String lieu);
 	
