@@ -15,16 +15,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "Creneaux")
 public class Creneaux {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(Views.ViewCommon.class)
 	private Long id;
 	@Version
+	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name="date")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonView(Views.ViewCommon.class)
 	private Date creneauxDispo;
 	@OneToMany(mappedBy = "creneaux")
 	private List<Rdv> rdv = new ArrayList<Rdv>();
