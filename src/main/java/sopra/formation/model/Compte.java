@@ -26,10 +26,10 @@ public abstract class Compte {
 	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name = "last_name", length = 100)
-	@JsonView(Views.ViewCommon.class)
+	@JsonView({Views.ViewCommon.class, Views.ViewPatientRdv.class})
 	private String nom;
 	@Column(name = "first_name", length = 100)
-	@JsonView(Views.ViewCommon.class)
+	@JsonView({Views.ViewCommon.class, Views.ViewPatientRdv.class})
 	private String prenom;
 	@Column(name = "email", length = 255)
 	@JsonView(Views.ViewCommon.class)
