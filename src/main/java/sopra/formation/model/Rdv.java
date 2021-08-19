@@ -14,19 +14,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "rdv")
 public class Rdv {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(Views.ViewCommon.class)
 	private Long id;
 	@Version
+	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name = "lieu")
+	@JsonView(Views.ViewCommon.class)
 	private String lieu;
 	@Column(name = "dtRdv")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonView(Views.ViewCommon.class)
 	private Date dtRdv;
 	@Enumerated(EnumType.STRING)
+	@JsonView(Views.ViewCommon.class)
 	private Status status;
 	@ManyToOne
 	@JoinColumn(name="motif_id")
