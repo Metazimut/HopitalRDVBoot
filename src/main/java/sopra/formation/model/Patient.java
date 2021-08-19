@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Patient extends Compte {
 
 	@OneToMany(mappedBy = "patient")
-	@JsonView(Views.ViewPatient.class)
+	@JsonView({Views.ViewPatient.class, Views.ViewPatientRdv.class})
 	private List<Rdv> rdv = new ArrayList<Rdv>();
 	
 	public Patient() {

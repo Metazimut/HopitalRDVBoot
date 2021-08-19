@@ -28,17 +28,18 @@ public class Rdv {
 	@JsonView(Views.ViewCommon.class)
 	private int version;
 	@Column(name = "lieu")
-	@JsonView(Views.ViewCommon.class)
+	@JsonView({Views.ViewCommon.class, Views.ViewPatientRdv.class})
 	private String lieu;
 	@Column(name = "dtRdv")
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@JsonView(Views.ViewCommon.class)
+	@JsonView({Views.ViewCommon.class, Views.ViewPatientRdv.class})
 	private Date dtRdv;
 	@Enumerated(EnumType.STRING)
-	@JsonView(Views.ViewCommon.class)
+	@JsonView({Views.ViewCommon.class, Views.ViewPatientRdv.class})
 	private Status status;
 	@ManyToOne
 	@JoinColumn(name="motif_id")
+	@JsonView(Views.ViewPatientRdv.class)
 	private Motif motif;
 	@ManyToOne
 	@JoinColumn(name="patient_id")
