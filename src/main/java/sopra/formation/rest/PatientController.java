@@ -49,10 +49,10 @@ public class PatientController {
 	@JsonView(Views.ViewPatient.class)
 	public Patient find(@PathVariable Long id) {
 
-		Optional<Patient> optEvaluation = patientRepo.findPatientById(id);
+		Optional<Patient> optPatient = patientRepo.findPatientById(id);
 
-		if (optEvaluation.isPresent()) {
-			return optEvaluation.get();
+		if (optPatient.isPresent()) {
+			return optPatient.get();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
