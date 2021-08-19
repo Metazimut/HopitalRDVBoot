@@ -1,6 +1,8 @@
 package sopra.formation.rest;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,10 +37,10 @@ public class AdminController {
 	@JsonView(Views.ViewAdmin.class)
 	public Admin find(@PathVariable Long id) {
 
-		Admin optAdmin = adminRepo.findAdminById(id);
+		Optional<Admin> optAdmin = adminRepo.findAdminById(id);
 
-		if (optAdmin!=null) {
-			return optAdmin;
+		if (optAdmin.isPresent()) {
+			return optAdmin.get();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
